@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --primary: #000fff;
+  --second: #fff000;
+}
+
+@function add-px($px) {
+  $var: 10px;
+  $px: $px +$var;
+  @return $px;
+}
+
+@mixin theme-color($theme: true) {
+  @if($theme) {
+    background-color: (var(--primary));
+    color: (var(--second));
+  }
+
+  @else {
+    background-color: (var(--second));
+    color: (var(--primary));
+  }
+
+}
+
+@mixin grid($col) {
+  display: grid;
+  grid-template-columns: $col;
+  gap: add-px(20);
+}
+
+@mixin bp($taille) {
+  @screen md {
+    @content;
+  }
+
+}
+
+body {
+  @include grid(1fr);
+  @apply m-3;
+}
+
+.first {
+  @include theme-color($theme: false);
+  @apply p-3;
+
+}
+
+.second {
+  @include theme-color($theme: true);
+  @apply p-3;
+}
+
+@include bp(md) {
+
+  body {
+    @include grid(1fr 1fr);
+    @apply m-3;
+  }
+
+  .first {
+    @include theme-color($theme: true);
+    @apply p-3;
+
+  }
+
+  .second {
+    @include theme-color($theme: false);
+    @apply p-3;
+  }
+}
+
+@screen md {}
